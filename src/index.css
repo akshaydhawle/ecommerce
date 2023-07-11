@@ -21,3 +21,9 @@
 .eh-100{
   height: 100vh !important;
 }
+
+.btn-secondary {
+  outline: none;
+  border:none;
+  background: #A9E079 !important;
+}

@@ -4,14 +4,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import CategoryService from '../services/categories';
-
-interface Category {
-    id: number;
-    image: string;
-    name: string;
-    createdAt: string;
-    creator: string;
-}
+import { Category } from '../interfaces/category';
 
 const Categories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -27,7 +20,7 @@ const Categories = () => {
 
   const navigate = useNavigate();
   const onAddCategoryClick = ()=>{
-        navigate('/categories/add');
+        navigate('/admin/categories/add');
   }
 
   const deleteCategory = (id:number)=>{
@@ -47,7 +40,7 @@ const Categories = () => {
   }
 
   const onUpdate = (data: Category)=>{
-    navigate('/categories/add', { state: data });
+    navigate('/admin/categories/add', { state: data });
   }
 
   return (
@@ -63,6 +56,7 @@ const Categories = () => {
                         <tr>
                             <th className='px-3'>Image</th>
                             <th>Name</th>
+                            <th>Sub Category</th>
                             <th>Added Date</th>
                             <th>Added By</th>
                             <th></th>
@@ -77,6 +71,7 @@ const Categories = () => {
                                         <img className='w-10 h-10 border-radius img-fluid' src={c.image} alt=""  />
                                     </td>
                                     <td >{c.name}</td>
+                                    <td >{c.subCategory}</td>
                                     <td >{c.createdAt}</td>
                                     <td >{c.creator}</td>
                                     <td>

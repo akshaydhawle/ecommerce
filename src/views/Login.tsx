@@ -6,6 +6,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import UserService from '../services/users'
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import useAuthStore from "../store/UserStore";
 
 const schema = z.object({
     email: z.string().email().nonempty(),
@@ -15,15 +16,20 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const Login = () => {
-    const { register, handleSubmit, reset, formState:{ errors } } = useForm<FormData>({
-        resolver: zodResolver(schema),
-        mode: 'onChange'
-    })
+  const { register, handleSubmit, reset, formState:{ errors } } = useForm<FormData>({
+      resolver: zodResolver(schema),
+      mode: 'onChange'
+  });
+  const login = useAuthStore((state:any) => state.login);
 
   const navigate = useNavigate();
   const onSubmit = async(data: FormData)=>{
         UserService.login(data)
-        .then(res=> navigate('/') )
+        .then(res=> {
+          console.log(res.user);
+          login(res.user);
+          navigate('/')
+        } )
         .catch(error => {
             toast(error.response.data.error, {
                 position: "top-center",

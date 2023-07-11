@@ -1,15 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
-import { z } from 'zod'
-import CategoryService from '../../services/categories';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { z } from 'zod';
+import BrandService from '../../services/brands';
 
 const schema = z.object({
   id: z.number().optional(),
   name: z.string().min(3).nonempty(),
-  subCategory: z.string().nonempty(),
   creator: z.string().default('Akshay Dhawle'),
   createdAt: z.string().default(new Date().toLocaleDateString()),
   image: z.string().nonempty()  
@@ -17,10 +15,8 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const AddCategory = () => {
+const AddBrand = () => {
     const { state } = useLocation();
-    const categories = ["Men","Women","Kids","Home & Living","Beauty"];
-
     const { register, handleSubmit, formState: { errors }, watch, getValues }  = useForm<FormData>({
         resolver: zodResolver(schema),
         mode: 'onChange',
@@ -32,13 +28,13 @@ const AddCategory = () => {
 
     const navigate = useNavigate();
     const onSubmit = (data: FormData)=>{
-        CategoryService.addCategory(data)
+      BrandService.addBrand({ ...data })
         .then(res=> {
-            toast('Category Added Successfully', {
+            toast('Brand Added Successfully', {
                 position: "top-center",
                 theme: "dark",
             });
-            navigate('/admin/categories');
+            navigate('/admin/brands');
         })
         .catch(err=> {
             toast(err.response.data.error, {
@@ -53,54 +49,36 @@ const AddCategory = () => {
       <div className="p-1">
        <div className="row">
         <div className="col-9">
-       <h3 className="mb-3 text-center text-black-50">Add Category</h3> 
+       <h3 className="mb-3 text-center text-black-50">Add Brand</h3> 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
-            <label className="form-label" htmlFor="name">
+            <label className="form-label" htmlFor="email">
               Name
             </label>
-            <select
-              {...register('name')}  
-              placeholder="Enter Category Name"
-              id="name"
-              className="form-control"
-            >
-              {
-                categories.map(c=>(
-                  <option value={c}>{c}</option>
-                ))
-              }
-            </select>
-            { errors.name && <div className="text-danger m-2">{errors.name.message}</div>  }
-          </div>
-          <div className="mb-4">
-            <label className="form-label" htmlFor="subCategory">
-             Sub Category
-            </label>
             <input
-              {...register('subCategory')}  
-              placeholder="Enter Sub Category Name"
-              id="subCategory"
+              {...register('name')}  
+              placeholder="Enter Brand Name"
+              id="name"
               type="text"
               className="form-control"
             />
-            { errors.subCategory && <div className="text-danger m-2">{errors.subCategory.message}</div>  }
+            { errors.name && <div className="text-danger m-2">{errors.name.message}</div>  }
           </div>
           
           <div className="mb-4">
-            <label className="form-label" htmlFor="password">
+            <label className="form-label" htmlFor="image">
               Image
             </label>
             <input
               {...register('image')}  
-              placeholder="Paste Your Category Image"
+              placeholder="Paste Your Brand Image"
               id="image"
               type="text"
               className="form-control"
             />
             { errors.image && <div className="text-danger m-2">{errors.image.message}</div>  }
           </div>
-          <button type="submit" className="btn btn-primary  mb-3">{ id ? 'Update' : 'Add' } Category</button>
+          <button type="submit" className="btn btn-primary  mb-3">{ id ? 'Update' : 'Add' } Brand</button>
         </form>
         </div>
         <div className="col-3">
@@ -119,4 +97,4 @@ const AddCategory = () => {
   )
 }
 
-export default AddCategory
+export default AddBrand

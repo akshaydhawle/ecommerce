@@ -1,20 +1,18 @@
 import axios from 'axios';
 import { url }  from '../config.json';
-
-interface Category {
-    id?: number;
-    name: string;
-    creator: string;
-    createdAt: string;
-    image: string;
-}
+import { Category } from '../interfaces/category';
 
 async function getCategories(){
    const response = await axios.get(`${url}/categories`);
    return response;
 }
 
-async function addCategory(data:Category){
+async function getTerms(){
+   const response = await axios.get(`${url}/terms`);
+   return response;
+}
+
+async function addCategory(data:Partial<Category>){
    let response;
    if(data.id){
       response = await axios.put(`${url}/categories/${data.id}`,{ ...data });
@@ -29,10 +27,13 @@ async function deleteCategory(id:number){
    return response;
 }
 
+
+
 export default {
     getCategories,
     addCategory,
-    deleteCategory
+    deleteCategory,
+    getTerms
 }
 
 

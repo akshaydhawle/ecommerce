@@ -16,27 +16,27 @@ const AdminLayout = () => {
     {
       title: "Dashboard",
       imgUrl: <FontAwesomeIcon icon={faHome} />,
-      forward: '/orders'
+      forward: '/admin/orders'
     },
     {
       title: "Customers",
       imgUrl: <FontAwesomeIcon icon={faUser} />,
-      forward: '/customers'
+      forward: '/admin/customers'
     },
     {
       title: "Products",
       imgUrl: <FontAwesomeIcon icon={faDatabase} />,
-      forward: '/products'
+      forward: '/admin/products'
     },
     {
       title: "Categories",
       imgUrl: <FontAwesomeIcon icon={faCircle} />,
-      forward: '/categories'
+      forward: '/admin/categories'
     },
     {
       title: "Brands",
       imgUrl: <FontAwesomeIcon icon={faShirt} />,
-      forward: '/brands'
+      forward: '/admin/brands'
     },
   ];
 
@@ -47,7 +47,7 @@ const AdminLayout = () => {
           <ul className="list-group rounded-pill">
             {list.map((l) => (
               <Link onClick={e=> setActive(l.title)} className="text-decoration-none" to={l.forward}>
-                <li className={`list-group-item d-flex column-gap-3 py-3 ${active === l.title ? 'active border-0' : '' }`} >
+                <li className={`list-group-item d-flex column-gap-3 py-3 px-3 ${active === l.title ? 'active border-0' : '' }`} >
                     <i>{l.imgUrl}</i> 
                     {l.title}
                 </li>

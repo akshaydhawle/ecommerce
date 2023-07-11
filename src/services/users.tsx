@@ -17,8 +17,20 @@ async function register(data:User){
     return response.data;
 }
 
+async function getUsers(){
+    const response = await axios.get(`${url}/users`);
+    return response;
+ }
+
+async function deleteUser(id:number){
+    const response = await axios.delete(`${url}/users/${id}`);
+    return response;
+ }
+
 export default {
     login,
-    register
+    register,
+    getUsers,
+    deleteUser
 }
 
